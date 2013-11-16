@@ -146,30 +146,7 @@ var filePath;
                             'use strict';
                              
 
-                             PDFJS.getDocument(filePath1).then(function(pdf) {
-                                    // Using promise to fetch the page
-                                                /*/
-                                             pdf.getPage(1).then(function(page) {
-                                                var scale = 1.5;
-                                                var viewport = page.getViewport(scale);
-                                                var canvas = document.getElementById('the-canvas');
-                                                var context = canvas.getContext('2d');
-                                                canvas.height = viewport.height;
-                                                canvas.width = viewport.width;
-                                                 var renderContext = {
-                                                    canvasContext: context,
-                                                    viewport: viewport
-                                                };
-                                                var pageRendering = page.render(renderContext);
-                                                var completeCallback = pageRendering.internalRenderTask.callback;
-                                                pageRendering.internalRenderTask.callback = function (error){
-                                                    completeCallback.call(this,error);
-                                                    $('#pdfloader').hide();
-                                                     $(".scrollme").mCustomScrollbar("update"); 
-                                                }
-                                               
-                                            });
-                                            /*/
+                             
 
                                             function renderPage(div, pdf, pageNumber, callback) {
                                               pdf.getPage(pageNumber).then(function(page) {
@@ -226,7 +203,7 @@ var filePath;
                                                 
                                     
                                     
-                            });
+                           
                         }
                         
                         
