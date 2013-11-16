@@ -37,7 +37,92 @@ var filePath;
                                             //$('.content').append(result).trigger("create");
                                             if(result){
                                                 filePath = result;
-                                                displayPdf(filePath);
+                                                 'use strict';
+                             
+
+                             PDFJS.getDocument(filePath).then(function(pdf) {
+                                    // Using promise to fetch the page
+                                                /*/
+                                             pdf.getPage(1).then(function(page) {
+                                                var scale = 1.5;
+                                                var viewport = page.getViewport(scale);
+                                                var canvas = document.getElementById('the-canvas');
+                                                var context = canvas.getContext('2d');
+                                                canvas.height = viewport.height;
+                                                canvas.width = viewport.width;
+                                                 var renderContext = {
+                                                    canvasContext: context,
+                                                    viewport: viewport
+                                                };
+                                                var pageRendering = page.render(renderContext);
+                                                var completeCallback = pageRendering.internalRenderTask.callback;
+                                                pageRendering.internalRenderTask.callback = function (error){
+                                                    completeCallback.call(this,error);
+                                                    $('#pdfloader').hide();
+                                                     $(".scrollme").mCustomScrollbar("update"); 
+                                                }
+                                               
+                                            });
+                                            /*/
+
+                                            function renderPage(div, pdf, pageNumber, callback) {
+                                              pdf.getPage(pageNumber).then(function(page) {
+                                                var scale = 1.5;
+                                                var viewport = page.getViewport(scale);
+
+                                                var pageDisplayWidth = viewport.width;
+                                                var pageDisplayHeight = viewport.height;
+
+                                                var pageDivHolder = document.createElement('div');
+                                                pageDivHolder.className = 'pdfpage';
+                                                pageDivHolder.style.width = pageDisplayWidth + 'px';
+                                                pageDivHolder.style.height = pageDisplayHeight + 'px';
+                                                div.appendChild(pageDivHolder);
+
+                                                // Prepare canvas using PDF page dimensions
+                                                var canvas = document.createElement('canvas');
+                                                var context = canvas.getContext('2d');
+                                                canvas.width = pageDisplayWidth;
+                                                canvas.height = pageDisplayHeight;
+                                                pageDivHolder.appendChild(canvas);
+
+
+                                                // Render PDF page into canvas context
+                                                var renderContext = {
+                                                  canvasContext: context,
+                                                  viewport: viewport
+                                                };
+                                                page.render(renderContext).then(callback);
+
+                                                // Prepare and populate form elements layer
+                                                var formDiv = document.createElement('div');
+                                                pageDivHolder.appendChild(formDiv);
+
+                                                
+                                              });
+                                            }
+
+                                            // Fetch the PDF document from the URL using promices
+                                            PDFJS.getDocument(filePath).then(function getPdfForm(pdf) {
+                                              // Rendering all pages starting from first
+                                              var viewer = document.getElementById('the-canvas');
+                                              var pageNumber = 1;
+                                              renderPage(viewer, pdf, pageNumber++, function pageRenderingComplete() {
+                                                if (pageNumber > pdf.numPages){
+                                                    $.mobile.showPageLoadingMsg(false);
+                                                      
+                                                  return; // All pages rendered
+                                                }
+                                                // Continue rendering of the next page
+                                                renderPage(viewer, pdf, pageNumber++, pageRenderingComplete);
+                                              });
+                                            });
+                                                
+                                    
+                                    
+                            });
+                        }
+                        
                                             }
                                 },
                                 error: function (request,error) {
@@ -140,99 +225,6 @@ var filePath;
         TorreillesInfo
         <div id="the-canvas" class="mycanvas" style="position:relative;display:block;margin:0 auto;height:auto;width:100%"></div>
                        
-
-                       <script type="text/javascript">
-                       function displayPdf(filePath1){
-                            'use strict';
-                             
-
-                             PDFJS.getDocument(filePath1).then(function(pdf) {
-                                    // Using promise to fetch the page
-                                                /*/
-                                             pdf.getPage(1).then(function(page) {
-                                                var scale = 1.5;
-                                                var viewport = page.getViewport(scale);
-                                                var canvas = document.getElementById('the-canvas');
-                                                var context = canvas.getContext('2d');
-                                                canvas.height = viewport.height;
-                                                canvas.width = viewport.width;
-                                                 var renderContext = {
-                                                    canvasContext: context,
-                                                    viewport: viewport
-                                                };
-                                                var pageRendering = page.render(renderContext);
-                                                var completeCallback = pageRendering.internalRenderTask.callback;
-                                                pageRendering.internalRenderTask.callback = function (error){
-                                                    completeCallback.call(this,error);
-                                                    $('#pdfloader').hide();
-                                                     $(".scrollme").mCustomScrollbar("update"); 
-                                                }
-                                               
-                                            });
-                                            /*/
-
-                                            function renderPage(div, pdf, pageNumber, callback) {
-                                              pdf.getPage(pageNumber).then(function(page) {
-                                                var scale = 1.5;
-                                                var viewport = page.getViewport(scale);
-
-                                                var pageDisplayWidth = viewport.width;
-                                                var pageDisplayHeight = viewport.height;
-
-                                                var pageDivHolder = document.createElement('div');
-                                                pageDivHolder.className = 'pdfpage';
-                                                pageDivHolder.style.width = pageDisplayWidth + 'px';
-                                                pageDivHolder.style.height = pageDisplayHeight + 'px';
-                                                div.appendChild(pageDivHolder);
-
-                                                // Prepare canvas using PDF page dimensions
-                                                var canvas = document.createElement('canvas');
-                                                var context = canvas.getContext('2d');
-                                                canvas.width = pageDisplayWidth;
-                                                canvas.height = pageDisplayHeight;
-                                                pageDivHolder.appendChild(canvas);
-
-
-                                                // Render PDF page into canvas context
-                                                var renderContext = {
-                                                  canvasContext: context,
-                                                  viewport: viewport
-                                                };
-                                                page.render(renderContext).then(callback);
-
-                                                // Prepare and populate form elements layer
-                                                var formDiv = document.createElement('div');
-                                                pageDivHolder.appendChild(formDiv);
-
-                                                
-                                              });
-                                            }
-
-                                            // Fetch the PDF document from the URL using promices
-                                            PDFJS.getDocument(filePath).then(function getPdfForm(pdf) {
-                                              // Rendering all pages starting from first
-                                              var viewer = document.getElementById('the-canvas');
-                                              var pageNumber = 1;
-                                              renderPage(viewer, pdf, pageNumber++, function pageRenderingComplete() {
-                                                if (pageNumber > pdf.numPages){
-                                                    $('#pdfloader').hide();
-                                                     $(".scrollme").mCustomScrollbar("update"); 
-                                                  return; // All pages rendered
-                                                }
-                                                // Continue rendering of the next page
-                                                renderPage(viewer, pdf, pageNumber++, pageRenderingComplete);
-                                              });
-                                            });
-                                                
-                                    
-                                    
-                            });
-                        }
-                        
-                        
-                        
-
-                        </script>
         <ul  class="content">
 
         </ul>
