@@ -19,7 +19,7 @@
                                 async: true,
                                 cache : false,
                                 success: function (result) {
-                                            $('.content').append('result').trigger("create");
+                                            $('.content').append(result).trigger("create");
                                 },
                                 error: function (request,error) {
                                            alert('Erreur de chargement ...');
