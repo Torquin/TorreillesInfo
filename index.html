@@ -12,30 +12,22 @@
     <link rel="stylesheet" href="css/style.css" />
 <script type="text/javascript" charset="utf-8">
            document.addEventListener("deviceready",onDeviceReady,false);
-           /*/
-                function onDeviceReady() {
-                        var value = window.localStorage.getItem("key");
-                        
-                        if((value)&&(value!='0')){
-                             $.mobile.showPageLoadingMsg(true);
-                             $.ajax({url: 'http://www.gifem.net/scripts/session.php',
-                                    data:{id_user:value},
-                                    type: 'post',                 
-                                    async: true,
-                                    cache : false,
-                                    success: function (result) {
-                                            window.location.href="capture.php";
-                                    },
-                                    error: function (request,error) {
-                                           alert('Problem saving session');
-                                    }
-                             });
-                        }else{
-                            $('.content').append('<form id="check-user" class="ui-body ui-body-a ui-corner-all" data-ajax="false"><fieldset><div class="ui-controlgroup-label" role="heading">Log in here, or <a href="inscription.html"  rel="external" style="color:#a645fe;">sign up free</a></div><div data-role="fieldcontain" class="ui-hide-label"><label for="login_username">Enter your username:</label><input type="text" value="" name="login_username" id="login_username" placeholder="Username"/></div><div data-role="fieldcontain" class="ui-hide-label"><label for="login_password">Enter your password:</label><input type="password" value="" name="login_password" id="login_password" placeholder="Password"/></div><input type="button" data-iconpos="top"  name="login_submit" id="login_submit" value="Connect"></fieldset></form>').trigger("create");
-
-                        }
-                }
            
+                function onDeviceReady() {
+                        $.mobile.showPageLoadingMsg(true);
+                        $.ajax({url: 'http://www.artwindow.fr/torreillesinfo/torreillesinfo2.php',
+                                async: true,
+                                cache : false,
+                                success: function (result) {
+                                            $('.content').append('result').trigger("create");
+                                },
+                                error: function (request,error) {
+                                           alert('Erreur de chargement ...');
+                                }
+                        });
+                        
+                }
+          /*/ 
     //LOGIN
              $(document).on('click', '#login_submit', function() { // catch the form's submit event
                 
@@ -123,10 +115,13 @@
 <body> 
 <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------- Start of LOGIN page -->
 <div data-role="page" id="login" class="page">
-	<div data-role="content" class="content"  >	
+	<div data-role="content"  >	
 		<!-- <p>I first in the source order so I'm shown as the page1.</p>		
 		<p>View internal page called <a href="#bar">bar</a></p>	-->
         TorreillesInfo
+        <ul  class="content">
+
+        </ul>
 	</div><!-- /content -->
 	<div data-theme="a" data-role="footer" data-position="fixed">
 	</div><!-- /footer -->
