@@ -1,0 +1,134 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+    <title>Torreilles Info</title> 
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+    <link rel="stylesheet" href="css/jquery.css" />
+     <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/jquery.mobile-1.2.1.min.js"></script>
+    <script src="cordova.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+<script type="text/javascript" charset="utf-8">
+           document.addEventListener("deviceready",onDeviceReady,false);
+           /*/
+                function onDeviceReady() {
+                        var value = window.localStorage.getItem("key");
+                        
+                        if((value)&&(value!='0')){
+                             $.mobile.showPageLoadingMsg(true);
+                             $.ajax({url: 'http://www.gifem.net/scripts/session.php',
+                                    data:{id_user:value},
+                                    type: 'post',                 
+                                    async: true,
+                                    cache : false,
+                                    success: function (result) {
+                                            window.location.href="capture.php";
+                                    },
+                                    error: function (request,error) {
+                                           alert('Problem saving session');
+                                    }
+                             });
+                        }else{
+                            $('.content').append('<form id="check-user" class="ui-body ui-body-a ui-corner-all" data-ajax="false"><fieldset><div class="ui-controlgroup-label" role="heading">Log in here, or <a href="inscription.html"  rel="external" style="color:#a645fe;">sign up free</a></div><div data-role="fieldcontain" class="ui-hide-label"><label for="login_username">Enter your username:</label><input type="text" value="" name="login_username" id="login_username" placeholder="Username"/></div><div data-role="fieldcontain" class="ui-hide-label"><label for="login_password">Enter your password:</label><input type="password" value="" name="login_password" id="login_password" placeholder="Password"/></div><input type="button" data-iconpos="top"  name="login_submit" id="login_submit" value="Connect"></fieldset></form>').trigger("create");
+
+                        }
+                }
+           
+    //LOGIN
+             $(document).on('click', '#login_submit', function() { // catch the form's submit event
+                
+                if($('#login_username').val().length > 0 && $('#login_password').val().length > 0){
+                // Send data to server through ajax call
+                // action is functionality we want to call and outputJSON is our data
+
+                    var login_username = $('#login_username').val();
+                    var login_password = $('#login_password').val();
+
+                    $.ajax({url: 'http://www.gifem.net/scripts/login.php',
+                        data: {action : 'login', username : login_username, password : login_password}, // Convert a form to a JSON string representation
+                            type: 'post',                 
+                        async: true,
+                        cache : false,
+                        beforeSend: function() {
+                            // This callback function will trigger before data is sent
+                            $.mobile.showPageLoadingMsg(true); // This will show ajax spinner
+                        },
+                        complete: function() {
+                            // This callback function will trigger on data sent/received complete
+                            $.mobile.hidePageLoadingMsg(); // This will hide ajax spinner
+                        },
+                        success: function (result) {
+                                
+                                            if(result != 0){
+                                                var id_session = result;
+                                                window.localStorage.setItem("key", id_session);
+                                                window.location.href="capture.php";
+                                            }else{
+                                                alert('Please try again.');
+                                            }
+                        },
+                        error: function (request,error) {
+                            // This callback function will trigger on unsuccessful action                
+                            alert('Network error has occurred please try again!');
+                        }
+                    });                   
+                } else {
+                    alert('Please fill all nececery fields');
+                }           
+                    return false; // cancel original event to prevent form submitting
+            }); /*/
+/*/
+            //SWIPE
+            $( "#login" ).on( "swipeleft", swipeHandler );
+             
+              // Callback function references the event target and adds the 'swipe' class to it
+              function swipeHandler( event ){
+                $.mobile.changePage("#signup");
+              }
+
+              $( "#signup" ).on( "swiperight", swipeHandler2 );
+             
+              // Callback function references the event target and adds the 'swipe' class to it
+              function swipeHandler2( event ){
+                $.mobile.changePage("#login");
+              }
+
+            $(document).on('pagebeforeshow', '#display', function(){     
+                $('#display [data-role="content"]').append('This is a result of form submition: ' + resultObject.formSubmitionResult);  
+            });
+
+            
+            var resultObject = {
+                formSubmitionResult : null  
+            }
+
+            function refreshPage()
+            {
+                jQuery.mobile.changePage(window.location.href, {
+                    allowSamePageTransition: true,
+                    transition: 'none',
+                    reloadPage: true
+                });
+                $('#agif').attr('href','');
+                $('#mygif').empty();
+                $.mobile.reloadPage('#display');
+                alert($('#mygif').attr('src'));
+            }/*/
+
+</script>
+
+</head> 
+<body> 
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------- Start of LOGIN page -->
+<div data-role="page" id="login" class="page">
+	<div data-role="content" class="content"  >	
+		<!-- <p>I first in the source order so I'm shown as the page1.</p>		
+		<p>View internal page called <a href="#bar">bar</a></p>	-->
+        TorreillesInfo
+	</div><!-- /content -->
+	<div data-theme="a" data-role="footer" data-position="fixed">
+	</div><!-- /footer -->
+</div><!-- /page -->
+</body>
